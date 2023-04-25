@@ -20,11 +20,12 @@ class PersonController extends Controller{
         $this->validation();
     }
 
-    public function index(){
+    public function index(int $id=null){
+        $person=Person::find($id);
         $persons=Person::paginate();
         $countries=Country::all();
         $languages=Language::all();
-        return view('person.index',compact('persons','countries','languages'));
+        return view('person.index',compact('person','persons','countries','languages'));
     }
 
     public function store(Request $request){
@@ -35,18 +36,18 @@ class PersonController extends Controller{
                 Session::flash('message','Error al validar los datos para crear una nueva persona');
                 return redirect()->back();
             }
-            $personLanguage=[];
+            $person_language=[];
             for($index=0; $index<count($request->languages_id??[]); $index++){
                 if(($request->languages_leves[$index]??0)==0){
                     continue;
                 }
-                $personLanguage[$request->languages_id[$index]]=['level'=>$request->languages_leves[$index]];
+                $person_language[$request->languages_id[$index]]=['level'=>$request->languages_leves[$index]];
                 
             }
             try{
-                DB::transaction(function()use($request,$personLanguage){
+                DB::transaction(function()use($request,$person_language){
                     $person=Person::create($request->all());
-                    $person->languages()->attach($personLanguage);
+                    $person->languages()->attach($person_language);
                 });
             }catch(\Exception $ex){
                 Log::channel('error')->error('Error al crear una nueva persona | PersonController@store | error: '.$ex->getMessage());
@@ -66,9 +67,10 @@ class PersonController extends Controller{
     public function update(Request $request){
         try{
             $validation=Validator::make($request->all(),$this->rules_update['person'],$this->messages);
+            Log::channel('info')->info($this->rules_update['person']);
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para actualizar una persona | PersonController@update | error: '.$validation->errors());
-                Session::flash('message','Error al validar los datos para actualizar una persona');
+                Session::flash('message','Error al validar los datos para actualizar una persona '.$validation->errors());
                 return redirect()->back();
             }
             $person=Person::find($request->id);
@@ -77,23 +79,20 @@ class PersonController extends Controller{
                 Session::flash('message','Error al buscar la persona a actualizar');
                 return redirect()->back();
             }
-            $personLanguage=[];
+            $person_language=[];
             for($index=0; $index<count($request->languages_id??[]); $index++){
                 if(($request->languages_leves[$index]??0)==0){
                     continue;
                 }
-                $personLanguage[$request->languages_id[$index]]=['level'=>$request->languages_leves[$index]];
-                
+                $person_language[$request->languages_id[$index]]=['level'=>$request->languages_leves[$index]];
             }
             try{
-                DB::transaction(function()use($request,$personLanguage){
-                    $person=Person::create($request->all());
-                    $person->languages()->attach($personLanguage);
-                    $update=$person->update($request->all());
-                    $person->languages()->sync($personLanguage);
+                DB::transaction(function()use($request,$person,$person_language){
+                    $person->update($request->all());
+                    $person->languages()->sync($person_language);
                 });
             }catch(\Exception $ex){
-                Log::channel('error')->error('Error al actualizar la persona | PersonController@update');
+                Log::channel('error')->error('Error al actualizar la persona | PersonController@update | error: '.$ex->getMessage());
                 Session::flash('message','Error al actualizar la persona');
                 return redirect()->back();
             }

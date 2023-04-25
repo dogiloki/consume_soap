@@ -33,6 +33,7 @@ Route::post('/language',[LanguageController::class,'store'])->name("language.sto
 Route::get('/language/{id}/delete',[LanguageController::class,'destroy'])->name("language.delete");
 
 // Personas
-Route::get('/person',[PersonController::class,'index'])->name("person.index");
+Route::get('/person/{id?}',[PersonController::class,'index'])->name("person.index");
 Route::post('/person',[PersonController::class,'store'])->name("person.store");
+Route::put('/person',[PersonController::class,'update'])->name("person.update");
 Route::get('/person/{id}/delete',[PersonController::class,'destroy'])->name("person.delete");

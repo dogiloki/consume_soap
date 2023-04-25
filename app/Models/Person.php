@@ -13,6 +13,8 @@ class Person extends Model{
 
     protected $table='person';
 
+    protected $with=['country','languages'];
+
     public function country(){
         return $this->hasOne(Country::class,'id','country_id');
     }

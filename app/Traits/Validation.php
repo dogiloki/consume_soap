@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use Illuminate\Support\Facades\Log;
 
 trait Validation{
 
@@ -11,7 +12,11 @@ trait Validation{
         'string'=>'El campo :attribute debe ser una cadena de caracteres',
         'max'=>'El campo :attribute no puede tener más de :max caracteres',
         'min'=>'El campo :attribute no puede tener menos de :min caracteres',
-        'unique'=>'El campo :attribute ya se encuentra registrado'
+        'unique'=>'El campo :attribute ya se encuentra registrado',
+        'exists'=>'El campo :attribute no existe',
+        'distinct'=>'El campo :attribute no puede tener valores repetidos',
+        'regex'=>'El campo :attribute no tiene un formato válido',
+        'between'=>'El campo :attribute debe estar entre :min y :max',
     ];
 
     private $rules_store=[
@@ -40,20 +45,27 @@ trait Validation{
     private $rules_update;
 
     public function validation(){
-        $rules_update=[
+        $this->rules_update=[
             'country'=>$this->removeRequired($this->rules_store['country']),
             'language'=>$this->removeRequired($this->rules_store['language']),
             'person'=>$this->removeRequired($this->rules_store['person'])
         ];
     }
 
+    // Pendiente a optimizar
     private function removeRequired(array $rules){
-        return array_reduce($rules,function($array,$item){
-            unset($item['required']);
-            $array[]=$item;
-            //$array['id']=['required','integer'];
-            return $array;
-        });
+        foreach($rules as $key=>$value){
+            $value=array_reduce($value,function($array,$item){
+                if($item=='required'){
+                    unset($item);
+                }else{
+                    $array[]=$item;
+                }
+                return $array;
+            });
+            $rules[$key]=$value;
+        }
+        return $rules;
     }
     
 }
