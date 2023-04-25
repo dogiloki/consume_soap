@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('capital');
             $table->string('phone_code');
-            $table->string('currency_iso_code')->uniqued();
+            $table->string('currency_iso_code');
             $table->string('src_flag');
-            $table->string('continent_iso_code')->uniqued();
+            $table->string('continent_iso_code');
             $table->timestamps();
         });
     }

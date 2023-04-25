@@ -1002,8 +1002,7 @@
 								"$ref": "AAAAAAGHttXuwxWVukU="
 							},
 							"name": "currency_iso_code",
-							"length": 0,
-							"unique": true
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -1021,8 +1020,7 @@
 								"$ref": "AAAAAAGHttXuwxWVukU="
 							},
 							"name": "continent_iso_code",
-							"length": 0,
-							"unique": true
+							"length": 0
 						}
 					]
 				},
