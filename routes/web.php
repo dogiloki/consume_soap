@@ -20,4 +20,4 @@ Route::post('/calculator',[CalculatorController::class,'calculator'])->name("cal
 
 // Países
 Route::get('/country',[CountryController::class,'index'])->name("country.index");
-Route::post('/country',[CountryController::class,'index'])->name("country.store");
+Route::post('/country',[CountryController::class,'store'])->name("country.store");

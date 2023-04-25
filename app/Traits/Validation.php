@@ -16,7 +16,7 @@ trait Validation{
 
     private $rules_store=[
         'country'=>[
-            'iso_code'=>['required','string','unique','max:255'],
+            'iso_code'=>['required','string','unique:country','max:255'],
             'name'=>['required','string','max:255'],
             'capital'=>['required','string','max:255'],
             'phone_code'=>['required','string','max:255'],

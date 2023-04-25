@@ -19,8 +19,7 @@ class CountryController extends Controller{
     }
 
     public function index(){
-        $countries=$this->soap_countries->FullCountryInfoAllCountries()->FullCountryInfoAllCountriesResult->tCountryInfo;
-        return view('country.index',compact('countries'));
+        return view('country.index');
     }
     
     public function store(Request $request){
