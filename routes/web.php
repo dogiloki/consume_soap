@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalculatorController;
-use App\Services\SoapService;
+use App\Http\Controllers\CountryController;
 
 /*
 |--------------------------------------------------------------------------

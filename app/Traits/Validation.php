@@ -6,8 +6,42 @@ trait Validation{
 
     private $messages=[
         'required'=>'El campo :attribute es requerido',
-        'numeric' => 'El campo :attribute debe ser un número'
+        'numeric'=>'El campo :attribute debe ser un número',
+        'integer'=>'El campo :attribute debe ser un número entero',
+        'string'=>'El campo :attribute debe ser una cadena de caracteres',
+        'max'=>'El campo :attribute no puede tener más de :max caracteres',
+        'min'=>'El campo :attribute no puede tener menos de :min caracteres',
+        'unique'=>'El campo :attribute ya se encuentra registrado'
     ];
+
+    private $rules_store=[
+        'country'=>[
+            'iso_code'=>['required','string','unique','max:255'],
+            'name'=>['required','string','max:255'],
+            'capital'=>['required','string','max:255'],
+            'phone_code'=>['required','string','max:255'],
+            'currency_iso_code'=>['required','string','max:255'],
+            'src_flag'=>['required','string','max:255'],
+            'continent_iso_code'=>['required','string','max:255']
+        ]
+    ];
+
+    private $rules_update;
+
+    public function __construct(){
+        $rules_update=[
+            'country'=>$this->removeRequired($this->rules_store['country'])
+        ];
+    }
+
+    private function removeRequired(array $rules){
+        return array_reduce($rules,function($array,$item){
+            unset($item['required']);
+            $array[]=$item;
+            $array['id']=['required','integer'];
+            return $array;
+        });
+    }
     
 }
 

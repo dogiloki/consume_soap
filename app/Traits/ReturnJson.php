@@ -15,7 +15,7 @@ trait ReturnJson{
      * 400 Datos incorrectos
      */
 
-     public function return_error(): \Illuminate\Http\JsonResponse{
+     public function return_error_server(): \Illuminate\Http\JsonResponse{
         return response()->json([
             "error"=>"Error en el servidor"
         ],500);
