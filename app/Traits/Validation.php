@@ -28,7 +28,7 @@ trait Validation{
 
     private $rules_update;
 
-    public function __construct(){
+    public function validation(){
         $rules_update=[
             'country'=>$this->removeRequired($this->rules_store['country'])
         ];

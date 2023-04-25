@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Traits\Validation;
 use App\Models\Country;
+use App\Services\SoapCountries;
 
 class CountryController extends Controller{
-    use Validation;
+    use Validation, SoapCountries;
+
+    public function __construct(){
+        $this->validation();
+        $this->soapCountries();
+    }
     
     public function store(Request $request){
         try{
