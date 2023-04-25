@@ -28,6 +28,13 @@ trait Validation{
             'iso_code'=>['required','string','unique:language','max:255'],
             'name'=>['required','string','max:255']
         ],
+        'person'=>[
+            'name'=>['required','string','max:255'],
+            'surname'=>['required','string','max:255'],
+            'country_id'=>['required','exists:country,id'],
+            'languages_id.*'=>['required','distinct','exists:language,id'],
+            'languages_leves.*'=>['required','integer','between:0,100']
+        ]
     ];
 
     private $rules_update;
@@ -35,7 +42,8 @@ trait Validation{
     public function validation(){
         $rules_update=[
             'country'=>$this->removeRequired($this->rules_store['country']),
-            'language'=>$this->removeRequired($this->rules_store['language'])
+            'language'=>$this->removeRequired($this->rules_store['language']),
+            'person'=>$this->removeRequired($this->rules_store['person'])
         ];
     }
 
@@ -43,7 +51,7 @@ trait Validation{
         return array_reduce($rules,function($array,$item){
             unset($item['required']);
             $array[]=$item;
-            $array['id']=['required','integer'];
+            //$array['id']=['required','integer'];
             return $array;
         });
     }

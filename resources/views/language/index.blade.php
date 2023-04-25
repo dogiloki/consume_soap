@@ -14,7 +14,7 @@
     @endif
 </form>
 
-<table>
+<table border="1">
     <tr>
         <th>ISO CODE</th>
         <th>NOMBRE</th>

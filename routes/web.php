@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PersonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,9 @@ use App\Http\Controllers\LanguageController;
 |
 */
 
-Route::get('/',[CalculatorController::class,'index']);
+Route::get('/',function(){
+    return redirect()->route('person.index');
+});
 Route::post('/calculator',[CalculatorController::class,'calculator'])->name("calculator");
 
 // Países
@@ -28,3 +31,8 @@ Route::get('/country/{id}/delete',[CountryController::class,'destroy'])->name("c
 Route::get('/language',[LanguageController::class,'index'])->name("language.index");
 Route::post('/language',[LanguageController::class,'store'])->name("language.store");
 Route::get('/language/{id}/delete',[LanguageController::class,'destroy'])->name("language.delete");
+
+// Personas
+Route::get('/person',[PersonController::class,'index'])->name("person.index");
+Route::post('/person',[PersonController::class,'store'])->name("person.store");
+Route::get('/person/{id}/delete',[PersonController::class,'destroy'])->name("person.delete");

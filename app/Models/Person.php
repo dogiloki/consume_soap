@@ -18,7 +18,7 @@ class Person extends Model{
     }
 
     public function languages(){
-        return $this->belongsToMany(Language::class,PersonLanguage::class,'person_id','language_id');
+        return $this->belongsToMany(Language::class,PersonLanguage::class,'person_id','language_id')->withPivot('level');
     }
 
 }

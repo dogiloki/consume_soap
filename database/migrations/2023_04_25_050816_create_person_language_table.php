@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('person_language', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_person');
-            $table->unsignedBigInteger('id_language');
+            $table->unsignedBigInteger('person_id');
+            $table->unsignedBigInteger('language_id');
             $table->integer('level');
             $table->timestamps();
-            $table->foreign('id_person')->references('id')->on('person');
-            $table->foreign('id_language')->references('id')->on('language');
+            $table->foreign('person_id')->references('id')->on('person');
+            $table->foreign('language_id')->references('id')->on('language');
         });
     }
 
