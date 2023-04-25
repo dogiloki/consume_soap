@@ -20,6 +20,31 @@
     @endif
 </form>
 
+<table>
+    <tr>
+        <th>ISO CODE</th>
+        <th>NOMBRE</th>
+        <th>CAPITAL</th>
+        <th>CÓDIGO TELEFÓNICO</th>
+        <th>ISO CODE MONEDA</th>
+        <th>ISO CODE CONTINENTE</th>
+        <th>BANDERA</th>
+        <th>ACCIONES</th>
+    </tr>
+    @foreach($countries as $country)
+        <tr>
+            <td>{{$country->iso_code}}</td>
+            <td>{{$country->name}}</td>
+            <td>{{$country->capital}}</td>
+            <td>{{$country->phone_code}}</td>
+            <td>{{$country->currency_iso_code}}</td>
+            <td>{{$country->continent_iso_code }}</td>
+            <td><img src='{{$country->src_flag}}'></td>
+            <td><a href="{{route('country.delete',$country->id)}}">Eliminar</a></td>
+        </tr>
+    @endforeach
+</table>
+
 {{view("layers/footer")}}
 
 <script src="{{asset('js/country.js')}}"></script>

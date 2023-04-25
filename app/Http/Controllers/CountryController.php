@@ -8,18 +8,17 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Traits\Validation;
 use App\Models\Country;
-use App\Services\SoapCountries;
 
 class CountryController extends Controller{
-    use Validation, SoapCountries;
+    use Validation;
 
     public function __construct(){
         $this->validation();
-        $this->soapCountries();
     }
 
     public function index(){
-        return view('country.index');
+        $countries=Country::paginate();
+        return view('country.index',compact('countries'));
     }
     
     public function store(Request $request){
@@ -84,7 +83,7 @@ class CountryController extends Controller{
                 Session::flash('message','Error al buscar el país');
                 return $this->return_not_found();
             }
-            Log::channel('info')->info('Se busco el país | CountryController@show');
+            Log::channel('info')->info('Se obtuvo información de país | CountryController@show');
             return $this->return_success_data(compact('country'));
         }catch(\Exception $ex){
             Log::channel('error')->error('Error en el servidor Exception (catch) | CountryController@show | error: '.$ex->getMessage());

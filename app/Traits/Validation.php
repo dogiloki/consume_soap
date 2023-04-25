@@ -23,14 +23,19 @@ trait Validation{
             'currency_iso_code'=>['required','string','max:255'],
             'src_flag'=>['required','string','max:255'],
             'continent_iso_code'=>['required','string','max:255']
-        ]
+        ],
+        'language'=>[
+            'iso_code'=>['required','string','unique:language','max:255'],
+            'name'=>['required','string','max:255']
+        ],
     ];
 
     private $rules_update;
 
     public function validation(){
         $rules_update=[
-            'country'=>$this->removeRequired($this->rules_store['country'])
+            'country'=>$this->removeRequired($this->rules_store['country']),
+            'language'=>$this->removeRequired($this->rules_store['language'])
         ];
     }
 

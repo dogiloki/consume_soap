@@ -24,7 +24,6 @@ list_countries.addEventListener('change',()=>{
 function getCountry(sISOCode){
     HTTP.get('api/full_country_info/'+sISOCode,(data)=>{
         country=data.country;
-        console.log(country);
         this.form['iso_code'].value=country.sISOCode;
         this.form['name'].value=country.sName;
         this.form['capital'].value=country.sCapitalCity;
