@@ -18,11 +18,22 @@ class SoapCountriesController extends Controller{
      * Información de países
      */
 
-    public function getFullCountryInfo(){
+    public function getFullCountryInfoAll(){
         try{
             $countries=$this->soap_countries->FullCountryInfoAllCountries()->FullCountryInfoAllCountriesResult->tCountryInfo;
             Log::channel('info')->info('Se obtuvo la información completa de países | SoapCountriesController@getFullCountryInfo');
             return $this->return_success_data(compact('countries'));
+        }catch(\Exception $ex){
+            Log::channel('error')->error('Error en el servidor Exception (catch) | SoapCountriesController@getFullCountryInfo | error: '.$ex->getMessage());
+            return $this->return_error_server();
+        }
+    }
+
+    public function getFullCountryInfo(string $iso_code){
+        try{
+            $country=$this->soap_countries->FullCountryInfo(['sCountryISOCode'=>$iso_code])->FullCountryInfoResult;
+            Log::channel('info')->info('Se obtuvo la información completa de un país | SoapCountriesController@getFullCountryInfo');
+            return $this->return_success_data(compact('country'));
         }catch(\Exception $ex){
             Log::channel('error')->error('Error en el servidor Exception (catch) | SoapCountriesController@getFullCountryInfo | error: '.$ex->getMessage());
             return $this->return_error_server();

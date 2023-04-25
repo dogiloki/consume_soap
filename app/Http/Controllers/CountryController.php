@@ -17,6 +17,11 @@ class CountryController extends Controller{
         $this->validation();
         $this->soapCountries();
     }
+
+    public function index(){
+        $countries=$this->soap_countries->FullCountryInfoAllCountries()->FullCountryInfoAllCountriesResult->tCountryInfo;
+        return view('country.index',compact('countries'));
+    }
     
     public function store(Request $request){
         try{

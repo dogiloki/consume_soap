@@ -17,3 +17,7 @@ use App\Http\Controllers\CountryController;
 
 Route::get('/',[CalculatorController::class,'index']);
 Route::post('/calculator',[CalculatorController::class,'calculator'])->name("calculator");
+
+// Países
+Route::get('/country',[CountryController::class,'index'])->name("country.index");
+Route::post('/country',[CountryController::class,'index'])->name("country.store");

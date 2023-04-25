@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // Países
-Route::get('/full_country_info',[SoapCountriesController::class,'getFullCountryInfo'])->name("country.full_country_info");
+Route::get('/full_country_info_all',[SoapCountriesController::class,'getFullCountryInfoAll'])->name("country.full_country_info");
+Route::get('/full_country_info/{iso_code}',[SoapCountriesController::class,'getFullCountryInfo'])->name("country.full_country_info");
 Route::get('/list_country_name',[SoapCountriesController::class,'getListCountryName'])->name("country.list_country_name");
 
 // Idiomas
