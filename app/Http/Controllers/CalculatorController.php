@@ -27,6 +27,9 @@ class CalculatorController extends Controller{
 
     public function index(){
         Session::flash("operations",$this->operations);
+        foreach($this->client->FullCountryInfoAllCountries()->FullCountryInfoAllCountriesResult->tCountryInfo as $country){
+            echo $country->sName."<br>";
+        }
         return view("index");
     }
 
