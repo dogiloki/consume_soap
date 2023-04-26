@@ -48,7 +48,7 @@ trait Validation{
     }
 
     public function getRulesUpdate(string $name_model){
-        return $this->restructureRulesUpdate($this->getRulesStore($name_model));
+        return $this->restructureRulesUpdate($this->getRulesStore($name_model),$name_model);
     }
 
     public function getMessages(){
@@ -56,7 +56,7 @@ trait Validation{
     }
 
     // Pendiente a optimizar
-    private function restructureRulesUpdate(?array $rules){
+    private function restructureRulesUpdate(?array $rules, $name_model){
         if($rules==null){
             return null;
         }
@@ -71,6 +71,7 @@ trait Validation{
             });
             $rules[$key]=$value;
         }
+        $rules['id']=['required','exists:'.$name_model.',id'];
         return $rules;
     }
     

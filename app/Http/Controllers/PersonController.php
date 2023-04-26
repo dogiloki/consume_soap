@@ -91,7 +91,7 @@ class PersonController extends Controller{
             }
             Log::channel('info')->info('Se actualizo la persona | PersonController@update');
             Session::flash('message','Se actualizo la persona');
-            return redirect()->back();
+            return $this->index();
         }catch(\Exception $ex){
             Log::channel('error')->error('Error en el servidor Exception (catch) | PersonController@update | error: '.$ex->getMessage());
             Session::flash('message','Error en el servidor');
