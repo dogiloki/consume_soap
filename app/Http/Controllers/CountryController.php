@@ -6,15 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use App\Traits\Validation;
 use App\Models\Country;
 
 class CountryController extends Controller{
-    use Validation;
-
-    public function __construct(){
-        $this->validation();
-    }
 
     public function index(){
         $countries=Country::paginate();
@@ -23,7 +17,7 @@ class CountryController extends Controller{
     
     public function store(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_store['country'],$this->messages);
+            $validation=Validator::make($request->all(),$this->getRulesStore('country'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para crear un nuevo país | CountryController@store | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para crear un nuevo país');
@@ -47,7 +41,7 @@ class CountryController extends Controller{
 
     public function update(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_update['country'],$this->messages);
+            $validation=Validator::make($request->all(),$this->getRulesUpdate('country'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para actualizar un país | CountryController@update | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para actualizar un país');

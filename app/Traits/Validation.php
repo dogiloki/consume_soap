@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Traits;
+
 use Illuminate\Support\Facades\Log;
 
 trait Validation{
 
-    private $messages=[
+    private $_messages=[
         'required'=>'El campo :attribute es requerido',
         'numeric'=>'El campo :attribute debe ser un número',
         'integer'=>'El campo :attribute debe ser un número entero',
@@ -19,7 +20,7 @@ trait Validation{
         'between'=>'El campo :attribute debe estar entre :min y :max',
     ];
 
-    private $rules_store=[
+    private $_rules_store=[
         'country'=>[
             'iso_code'=>['required','string','unique:country','max:255'],
             'name'=>['required','string','max:255'],
@@ -42,18 +43,23 @@ trait Validation{
         ]
     ];
 
-    private $rules_update;
+    public function getRulesStore(string $name_model){
+        return $this->_rules_store[$name_model];
+    }
 
-    public function validation(){
-        $this->rules_update=[
-            'country'=>$this->removeRequired($this->rules_store['country']),
-            'language'=>$this->removeRequired($this->rules_store['language']),
-            'person'=>$this->removeRequired($this->rules_store['person'])
-        ];
+    public function getRulesUpdate(string $name_model){
+        return $this->restructureRulesUpdate($this->getRulesStore($name_model));
+    }
+
+    public function getMessages(){
+        return $this->_messages;
     }
 
     // Pendiente a optimizar
-    private function removeRequired(array $rules){
+    private function restructureRulesUpdate(?array $rules){
+        if($rules==null){
+            return null;
+        }
         foreach($rules as $key=>$value){
             $value=array_reduce($value,function($array,$item){
                 if($item=='required'){

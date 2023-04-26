@@ -7,18 +7,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-use App\Traits\Validation;
 use App\Models\Person;
 use App\Models\Language;
 use App\Models\Country;
 use App\Models\PersonLanguage;
 
 class PersonController extends Controller{
-    use Validation;
-
-    public function __construct(){
-        $this->validation();
-    }
 
     public function index(int $id=null){
         $person=Person::find($id);
@@ -30,7 +24,7 @@ class PersonController extends Controller{
 
     public function store(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_store['person'],$this->messages);
+            $validation=Validator::make($request->all(),$this->getRulesStore('person'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para crear una nueva persona | PersonController@store | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para crear una nueva persona');
@@ -66,8 +60,7 @@ class PersonController extends Controller{
 
     public function update(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_update['person'],$this->messages);
-            Log::channel('info')->info($this->rules_update['person']);
+            $validation=Validator::make($request->all(),$this->getRulesUpdate('person'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para actualizar una persona | PersonController@update | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para actualizar una persona '.$validation->errors());

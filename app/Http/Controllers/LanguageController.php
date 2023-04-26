@@ -6,15 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use App\Traits\Validation;
 use App\Models\Language;
 
 class LanguageController extends Controller{
-    use Validation;
-
-    public function __construct(){
-        $this->validation();
-    }
 
     public function index(){
         $languages=Language::paginate();
@@ -23,7 +17,7 @@ class LanguageController extends Controller{
 
     public function store(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_store['language'],$this->messages);
+            $validation=Validator::make($request->all(),$this->getRulesStore('language'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para crear un nuevo idioma | LanguageController@store | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para crear un nuevo idioma');
@@ -47,7 +41,7 @@ class LanguageController extends Controller{
 
     public function update(Request $request){
         try{
-            $validation=Validator::make($request->all(),$this->rules_update['language'],$this->messages);
+            $validation=Validator::make($request->all(),$this->getRulesUpdate('language'),$this->getMessages());
             if($validation->fails()){
                 Log::channel('error')->error('Error al validar los datos para actualizar un idioma | LanguageController@update | error: '.$validation->errors());
                 Session::flash('message','Error al validar los datos para actualizar un idioma');
